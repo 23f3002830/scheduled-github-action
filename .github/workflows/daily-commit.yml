@@ -1,0 +1,26 @@
+name: Daily Automated Commit
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Daily update for 23f3002830@ds.study.iitm.ac.in
+        run: echo "Daily automated update - $(date)" >> ACTIVITY_LOG.md
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions"
+
+      - name: Commit changes
+        run: |
+          git add ACTIVITY_LOG.md
+          git commit -m "Automated daily commit - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git push
