@@ -8,9 +8,13 @@ on:
 jobs:
   daily-commit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Daily update for 23f3002830@ds.study.iitm.ac.in
         run: echo "Daily automated update - $(date)" >> ACTIVITY_LOG.md
@@ -24,4 +28,4 @@ jobs:
         run: |
           git add ACTIVITY_LOG.md
           git commit -m "Automated daily commit - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-          git push
+          git push origin main
